@@ -77,7 +77,8 @@ HTMLElement.prototype.getCoords = function() {
 
 
 /**
- * 
+ * This function fade in or out the element on which it is called
+ * This function needs the MFG.css to work
  * @return {boolean} : true if the object exists, else false
  */
 HTMLElement.prototype.fade =  function() {
