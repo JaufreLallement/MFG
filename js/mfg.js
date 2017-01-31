@@ -134,6 +134,20 @@ Array.prototype.addMultipleClassListener = function(event, func, useCapture) {
 
 
 /**
+ * This function apply the given style for the given property for each element of the class on which the function is called
+ * @param {String} property : css property
+ * @param {String} style : css style of the property
+ * @return
+ */
+HTMLCollection.prototype.classStyle = function (property, style) {
+	for (i = 0; i < this.length; i++) {
+		eval("this[" + i + "].style." + property + " = " + "style");
+	}
+	return;
+}
+
+
+/**
 *	This function allows the user to lock the scroll to focus a specific element of the DOM
 *	@param {int} speed : base speed of the scroll
 *	@return
@@ -148,6 +162,15 @@ HTMLElement.prototype.smoothYScrollTo = function (duration) {
         document.body.scrollTop += increment;
         element.smoothYScrollTo(duration - 1);
     }, 10);
+}
+
+
+/**
+*	This function returns the given string with first character in caps.
+*	@return {String} : modified string.
+*/ 
+String.prototype.capsFirstLetter = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
 
