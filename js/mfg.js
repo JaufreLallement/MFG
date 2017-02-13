@@ -322,7 +322,7 @@ HTMLElement.prototype.fadeIn = function (duration = 1000) {
  * This function fade out the element on which it is called
  * This function requires the mfg.css to work
  * @param {int} duration : duration of the animation in ms
- * @return {boolean} : true - the element exists, false - the element does not exist
+ * @return {boolean} : true - the element exists, false - the element does not
  */
 HTMLElement.prototype.fadeOut = function (duration = 1000) {
 	if (this) {
