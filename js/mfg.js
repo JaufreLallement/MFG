@@ -60,7 +60,7 @@ HTMLElement.prototype.getScreenTop = function() {
  * @return {double} : left position
  */
 HTMLElement.prototype.getLeft = function() {
-	return this.getBoundingClientRect().left - document.body.getBoundingClientRect().left;
+	return Math.round(this.getBoundingClientRect().left - document.body.getBoundingClientRect().left);
 }
 
 
@@ -69,7 +69,7 @@ HTMLElement.prototype.getLeft = function() {
  * @return {double} : top position
  */
 HTMLElement.prototype.getTop = function() {
-	return this.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+	return Math.round(this.getBoundingClientRect().top - document.body.getBoundingClientRect().top);
 }
 
 
@@ -322,7 +322,7 @@ HTMLElement.prototype.fadeIn = function (duration = 1000) {
  * This function fade out the element on which it is called
  * This function requires the mfg.css to work
  * @param {int} duration : duration of the animation in ms
- * @return {boolean} : true - the element exists, false - the element does not
+ * @return {boolean} : true - the element exists, false - the element does not exist
  */
 HTMLElement.prototype.fadeOut = function (duration = 1000) {
 	if (this) {
@@ -406,17 +406,17 @@ HTMLElement.prototype.scrollIt = function (duration = 200, animation = 'linear')
 	/**
 	 * @const {double} documentHeight : height of the document
 	 */
-	const documentHeight = body.offsetHeight;
+	const documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
 
 	/**
 	 * @const {double} windowHeight : 
 	 */
-	const windowHeight = getWindowHeight();
+	const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
 	/**
 	 * @const {double} destination : top position of the target
 	 */
-	const destination = documentHeight - this.offsetTop < windowHeight ? documentHeight - windowHeight : this.offsetTop;
+	const destination = documentHeight - this.getTop() < windowHeight ? documentHeight - windowHeight : this.getTop();
 
 	function scroll() {
 		const now = Date.now();
