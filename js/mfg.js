@@ -417,14 +417,13 @@ HTMLElement.prototype.scrollIt = function (duration = 200, animation = 'linear')
 	 * @const {double} destination : top position of the target
 	 */
 	const destination = documentHeight - this.getTop() < windowHeight ? documentHeight - windowHeight : this.getTop();
-
 	function scroll() {
 		const now = Date.now();
 		const time = Math.min(1, ((now - startTime) / duration));
 		const timeFunction = animations[animation](time);
 		body.scrollTop = (timeFunction * (destination - start)) + start;
 
-		if (body.scrollTop === destination) {
+		if ((Math.round(body.scrollTop) === destination) || ((now - startTime) > (duration + 100))) {
 			return;
 		}
 		requestAnimationFrame(scroll);
