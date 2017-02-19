@@ -228,30 +228,42 @@ Array.prototype.addMultipleClassListener = function(event, func, useCapture) {
  * @param {String} style : css style of the property
  * @return
  */
-HTMLCollection.prototype.classStyle = function (property, style) {
+HTMLCollection.prototype.css = function (property, style) {
 	for (i = 0; i < this.length; i++) {
-		eval("this[" + i + "].style." + property + " = " + "style");
+		this[i].style[property] = style;
 	}
 	return;
 }
 
 
 /**
-* This function allows the user to lock the scroll to focus a specific element of the DOM
-* @param {int} speed : base speed of the scroll
-* @return
-*/
-HTMLElement.prototype.smoothYScrollTo = function (duration) {
-	 if (duration <= 0) return;
-        var element = this,
-			difference = this.getTop() - (document.documentElement.scrollTop || document.body.scrollTop),
-        	increment = difference / duration * 2;
+ * This function set the style of a given css3 (managing compatibility with all the necessary prefixes) property for the element on which it is called
+ * @param {String} property : css property to modify / set
+ * @param {String} style : style to apply
+ * @return
+ */
+HTMLElement.prototype.css3 = function (property, style) {
+	var majProperty = property.capsFirstLetter();
+	this.style["webkit" + majProperty] = style;
+	this.style["moz" + majProperty] = style;
+	this.style["ms" + majProperty] = style;
+	this.style["o" + majProperty] = style;
+	this.style[property] = style;
+	return;
+}
 
-    setTimeout(function() {
-        document.body.scrollTop += increment;
-		document.documentElement.scrollTop += increment;
-        element.smoothYScrollTo(duration - 2);
-    }, 10);
+
+/**
+ * This function set the style of a given css3 (managing compatibility with all the necessary prefixes) property for all the elements
+ * @param {String} property : css property to modify / set
+ * @param {String} style : style to apply
+ * @return
+ */
+HTMLCollection.prototype.css3 = function (property, style) {
+	for (i = 0; i < this.length; i++) {
+		this[i].css3(property, style);
+	}
+	return;
 }
 
 
@@ -272,7 +284,7 @@ String.prototype.capsFirstLetter = function () {
  */
 HTMLElement.prototype.slideUp = function(duration = 1000) {
 	if (this) {
-		this.style.transition = 'max-height ' + duration / 1000 + 's ease-in-out';
+		this.css3('transition', 'max-height ' + duration / 1000 + 's ease-in-out');
 		this.removeClass('slide-down');
 		this.addClass('slide-up');
 		return true;
@@ -290,7 +302,7 @@ HTMLElement.prototype.slideUp = function(duration = 1000) {
  */
 HTMLElement.prototype.slideDown = function(duration = 1000) {
 	if (this) {
-		this.style.transition = 'max-height ' + duration / 1000 + 's ease-in-out';
+		this.css3('transition', 'max-height ' + duration / 1000 + 's ease-in-out');
 		this.removeClass('slide-up');
 		this.addClass('slide-down');
 		return true;
@@ -308,7 +320,7 @@ HTMLElement.prototype.slideDown = function(duration = 1000) {
  */
 HTMLElement.prototype.fadeIn = function (duration = 1000) {
 	if (this) {
-		this.style.transition = 'visibility 0s linear 0s, opacity ' + duration / 1000 + 's';
+		this.css3('transition', 'visibility 0s linear 0s, opacity ' + duration / 1000 + 's');
 		this.removeClass('faded-out');
 		this.addClass('faded-in');
 		return true;
@@ -326,7 +338,7 @@ HTMLElement.prototype.fadeIn = function (duration = 1000) {
  */
 HTMLElement.prototype.fadeOut = function (duration = 1000) {
 	if (this) {
-		this.style.transition = 'visibility 0s linear ' +  duration / 1000 +'s, opacity ' + duration / 1000 + 's';
+		this.css3('transition', 'visibility 0s linear ' +  duration / 1000 +'s, opacity ' + duration / 1000 + 's');
 		this.removeClass('faded-in');
 		this.addClass('faded-out');
 		return true;
